@@ -1,0 +1,5 @@
+{
+  "name": "VoiceFlow",
+  "description": "A professional tool to analyze audio files, extracting transcriptions, detecting language, and calculating duration using Gemini 2.5 Flash.",
+  "requestFramePermissions": []
+}
