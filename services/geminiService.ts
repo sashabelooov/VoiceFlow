@@ -1,4 +1,4 @@
-import { GoogleGenAI, Type } from "@google/genai";
+import { GoogleGenAI, Type, Modality } from "@google/genai";
 import { GeminiResponse } from "../types";
 
 const API_KEY = process.env.API_KEY;
@@ -9,12 +9,13 @@ if (!API_KEY) {
 
 const ai = new GoogleGenAI({ apiKey: API_KEY });
 
+// --- Audio Analysis (Complex) ---
 export const analyzeAudioContent = async (
   base64Data: string,
   mimeType: string
 ): Promise<GeminiResponse> => {
   try {
-    const modelId = "gemini-2.5-flash"; // Good balance of speed and multimodal capability
+    const modelId = "gemini-2.5-flash"; 
 
     const response = await ai.models.generateContent({
       model: modelId,
@@ -76,5 +77,62 @@ export const analyzeAudioContent = async (
   } catch (error) {
     console.error("Gemini API Error:", error);
     throw new Error("Failed to analyze audio with AI.");
+  }
+};
+
+// --- Text to Speech (TTS) ---
+export const generateSpeech = async (text: string): Promise<string> => {
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash-preview-tts",
+      contents: [{ parts: [{ text }] }],
+      config: {
+        responseModalities: [Modality.AUDIO],
+        speechConfig: {
+          voiceConfig: {
+            prebuiltVoiceConfig: { voiceName: 'Kore' },
+          },
+        },
+      },
+    });
+
+    const audioData = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+    if (!audioData) {
+      throw new Error("No audio data received.");
+    }
+    return audioData;
+  } catch (error) {
+    console.error("TTS Error:", error);
+    throw new Error("Failed to generate speech.");
+  }
+};
+
+// --- Simple Speech to Text (STT) ---
+export const transcribeAudio = async (
+  base64Data: string,
+  mimeType: string
+): Promise<string> => {
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: {
+        parts: [
+          {
+            inlineData: {
+              mimeType: mimeType,
+              data: base64Data,
+            },
+          },
+          {
+            text: "Transcribe the following audio file verbatim. Return ONLY the raw transcription text, nothing else.",
+          },
+        ],
+      },
+    });
+    
+    return response.text || "No transcription generated.";
+  } catch (error) {
+    console.error("STT Error:", error);
+    throw new Error("Failed to transcribe audio.");
   }
 };

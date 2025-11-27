@@ -26,3 +26,5 @@ export interface HistoryItem {
   id: string;
   result: AudioAnalysisResult;
 }
+
+export type Page = 'home' | 'analyze' | 'stt' | 'tts';
