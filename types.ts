@@ -28,3 +28,5 @@ export interface HistoryItem {
 }
 
 export type Page = 'home' | 'analyze' | 'stt' | 'tts';
+
+export type Language = 'en' | 'uz' | 'ru';

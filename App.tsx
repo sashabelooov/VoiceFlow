@@ -4,12 +4,13 @@ import { Home } from './components/Home';
 import { AudioAnalyze } from './components/AudioAnalyze';
 import { TTS } from './components/TTS';
 import { STT } from './components/STT';
-import { Page } from './types';
+import { Page, Language } from './types';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [currentPage, setCurrentPage] = useState<Page>('home');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [language, setLanguage] = useState<Language>('en');
 
   // Initialize Dark Mode from system preference
   useEffect(() => {
@@ -45,10 +46,12 @@ function App() {
           currentPage={currentPage}
           setPage={setCurrentPage}
           showMenuButton={currentPage === 'analyze'}
+          language={language}
+          setLanguage={setLanguage}
         />
 
         <main className="flex-grow">
-          {currentPage === 'home' && <Home setPage={setCurrentPage} />}
+          {currentPage === 'home' && <Home setPage={setCurrentPage} language={language} />}
           {currentPage === 'analyze' && <AudioAnalyze isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />}
           {currentPage === 'tts' && <TTS />}
           {currentPage === 'stt' && <STT />}

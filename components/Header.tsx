@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { MoonIcon, SunIcon, Bars3Icon, XMarkIcon } from './Icons';
-import { Page } from '../types';
+import { MoonIcon, SunIcon, Bars3Icon, XMarkIcon, LanguageIcon } from './Icons';
+import { Page, Language } from '../types';
+import { translations } from '../services/translations';
 
 interface HeaderProps {
   darkMode: boolean;
@@ -9,6 +10,8 @@ interface HeaderProps {
   currentPage: Page;
   setPage: (page: Page) => void;
   showMenuButton?: boolean;
+  language: Language;
+  setLanguage: (lang: Language) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({ 
@@ -17,15 +20,18 @@ export const Header: React.FC<HeaderProps> = ({
   onMenuClick,
   currentPage,
   setPage,
-  showMenuButton = false
+  showMenuButton = false,
+  language,
+  setLanguage
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const t = translations[language].nav;
 
   const navItems: { id: Page; label: string }[] = [
-    { id: 'home', label: 'Home' },
-    { id: 'analyze', label: 'Analyze Call' },
-    { id: 'stt', label: 'STT' },
-    { id: 'tts', label: 'TTS' },
+    { id: 'home', label: t.home },
+    { id: 'analyze', label: t.analyze },
+    { id: 'stt', label: t.stt },
+    { id: 'tts', label: t.tts },
   ];
 
   return (
@@ -76,6 +82,34 @@ export const Header: React.FC<HeaderProps> = ({
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-4">
+          {/* Language Dropdown */}
+          <div className="relative group">
+            <button className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors flex items-center gap-1">
+              <LanguageIcon className="w-5 h-5" />
+              <span className="text-xs font-bold uppercase">{language}</span>
+            </button>
+            <div className="absolute right-0 top-full mt-2 w-32 py-2 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-slate-100 dark:border-slate-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all transform origin-top-right z-50">
+              <button 
+                onClick={() => setLanguage('en')}
+                className={`w-full text-left px-4 py-2 text-sm hover:bg-slate-50 dark:hover:bg-slate-700 ${language === 'en' ? 'text-indigo-600 font-bold' : 'text-slate-600 dark:text-slate-300'}`}
+              >
+                English
+              </button>
+              <button 
+                onClick={() => setLanguage('uz')}
+                className={`w-full text-left px-4 py-2 text-sm hover:bg-slate-50 dark:hover:bg-slate-700 ${language === 'uz' ? 'text-indigo-600 font-bold' : 'text-slate-600 dark:text-slate-300'}`}
+              >
+                O'zbek
+              </button>
+              <button 
+                onClick={() => setLanguage('ru')}
+                className={`w-full text-left px-4 py-2 text-sm hover:bg-slate-50 dark:hover:bg-slate-700 ${language === 'ru' ? 'text-indigo-600 font-bold' : 'text-slate-600 dark:text-slate-300'}`}
+              >
+                Русский
+              </button>
+            </div>
+          </div>
+
           <button
             onClick={toggleDarkMode}
             className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors"
