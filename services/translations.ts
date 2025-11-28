@@ -64,6 +64,11 @@ export const translations = {
       ttsTitle: 'Text to Speech',
       ttsDesc: 'Convert written text into natural-sounding lifelike audio.',
       ttsBtn: 'Generate Audio',
+    },
+    warning: {
+      title: 'Temporary Session Warning',
+      message: 'This is a client-side demo application. No audio files or results are stored in a database. If you refresh the page or navigate away, your current data will be lost immediately.',
+      btn: 'I got it',
     }
   },
   uz: {
@@ -129,6 +134,11 @@ export const translations = {
       ttsTitle: 'Matndan Nutqqa',
       ttsDesc: 'Yozma matnni tabiiy eshitiladigan audioga aylantiring.',
       ttsBtn: 'Audio Yaratish',
+    },
+    warning: {
+      title: 'Diqqat: Vaqtinchalik Sessiya',
+      message: 'Bu demo versiya bo\'lib, to\'liq brauzeringizda ishlaydi. Hech qanday ma\'lumot serverga saqlanmaydi. Agar sahifani yangilasangiz, barcha natijalar o\'chib ketadi.',
+      btn: 'Tushundim',
     }
   },
   ru: {
@@ -194,6 +204,11 @@ export const translations = {
       ttsTitle: 'Текст в Речь',
       ttsDesc: 'Преобразуйте письменный текст в естественный звук.',
       ttsBtn: 'Создать Аудио',
+    },
+    warning: {
+      title: 'Внимание: Данные не сохраняются',
+      message: 'Это демо-версия, работающая локально в браузере. Данные не сохраняются на сервере. Если вы обновите страницу, все результаты будут потеряны.',
+      btn: 'Я понял',
     }
   }
 };

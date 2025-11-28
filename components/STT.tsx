@@ -3,8 +3,14 @@ import { FileUpload } from './FileUpload';
 import { fileToBase64 } from '../services/audioUtils';
 import { transcribeAudio } from '../services/geminiService';
 import { DocumentTextIcon, CheckIcon } from './Icons';
+import { DataLossWarning } from './DataLossWarning';
+import { Language } from '../types';
 
-export const STT: React.FC = () => {
+interface STTProps {
+  language: Language;
+}
+
+export const STT: React.FC<STTProps> = ({ language }) => {
   const [transcription, setTranscription] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -36,6 +42,8 @@ export const STT: React.FC = () => {
 
   return (
     <div className="w-full max-w-3xl mx-auto animate-fade-in-up p-4">
+      <DataLossWarning language={language} />
+
       <div className="text-center mb-10">
         <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-3">Speech to Text</h2>
         <p className="text-slate-600 dark:text-slate-400">

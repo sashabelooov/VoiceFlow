@@ -52,9 +52,9 @@ function App() {
 
         <main className="flex-grow">
           {currentPage === 'home' && <Home setPage={setCurrentPage} language={language} />}
-          {currentPage === 'analyze' && <AudioAnalyze isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />}
-          {currentPage === 'tts' && <TTS />}
-          {currentPage === 'stt' && <STT />}
+          {currentPage === 'analyze' && <AudioAnalyze isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} language={language} />}
+          {currentPage === 'tts' && <TTS language={language} />}
+          {currentPage === 'stt' && <STT language={language} />}
         </main>
 
         <footer className="py-6 text-center text-slate-400 dark:text-slate-600 text-sm">

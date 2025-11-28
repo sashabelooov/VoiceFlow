@@ -2,17 +2,19 @@ import React, { useState, useCallback } from 'react';
 import { FileUpload } from './FileUpload';
 import { Results } from './Results';
 import { Sidebar } from './Sidebar';
-import { AudioAnalysisResult, ProcessingState, HistoryItem } from '../types';
+import { AudioAnalysisResult, ProcessingState, HistoryItem, Language } from '../types';
 import { getAudioDuration, fileToBase64 } from '../services/audioUtils';
 import { analyzeAudioContent } from '../services/geminiService';
 import { FileAudioIcon } from './Icons';
+import { DataLossWarning } from './DataLossWarning';
 
 interface AudioAnalyzeProps {
   isSidebarOpen: boolean;
   setIsSidebarOpen: (isOpen: boolean) => void;
+  language: Language;
 }
 
-export const AudioAnalyze: React.FC<AudioAnalyzeProps> = ({ isSidebarOpen, setIsSidebarOpen }) => {
+export const AudioAnalyze: React.FC<AudioAnalyzeProps> = ({ isSidebarOpen, setIsSidebarOpen, language }) => {
   const [processingState, setProcessingState] = useState<ProcessingState>({ status: 'idle' });
   const [result, setResult] = useState<AudioAnalysisResult | null>(null);
   const [currentFile, setCurrentFile] = useState<File | null>(null);
@@ -90,6 +92,8 @@ export const AudioAnalyze: React.FC<AudioAnalyzeProps> = ({ isSidebarOpen, setIs
 
   return (
     <>
+      <DataLossWarning language={language} />
+      
       <Sidebar 
         isOpen={isSidebarOpen} 
         onClose={() => setIsSidebarOpen(false)} 

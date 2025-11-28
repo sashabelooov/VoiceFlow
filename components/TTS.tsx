@@ -2,8 +2,14 @@ import React, { useState } from 'react';
 import { SpeakerWaveIcon } from './Icons';
 import { generateSpeech } from '../services/geminiService';
 import { base64ToWavBlob } from '../services/audioUtils';
+import { DataLossWarning } from './DataLossWarning';
+import { Language } from '../types';
 
-export const TTS: React.FC = () => {
+interface TTSProps {
+  language: Language;
+}
+
+export const TTS: React.FC<TTSProps> = ({ language }) => {
   const [text, setText] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
@@ -30,6 +36,8 @@ export const TTS: React.FC = () => {
 
   return (
     <div className="w-full max-w-3xl mx-auto animate-fade-in-up p-4">
+      <DataLossWarning language={language} />
+
       <div className="text-center mb-10">
         <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-3">Text to Speech</h2>
         <p className="text-slate-600 dark:text-slate-400">
