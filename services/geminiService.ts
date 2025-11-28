@@ -1,13 +1,36 @@
 import { GoogleGenAI, Type, Modality } from "@google/genai";
 import { GeminiResponse } from "../types";
 
-const API_KEY = process.env.API_KEY;
+// Robust API Key retrieval for Vite/Netlify
+const getApiKey = () => {
+  // Check Vite specific env var (Standard for Vite apps)
+  if (typeof import.meta !== 'undefined' && (import.meta as any).env && (import.meta as any).env.VITE_API_KEY) {
+    return (import.meta as any).env.VITE_API_KEY;
+  }
+  
+  // Check process.env (Standard for Node/Create-React-App, polyfilled in index.tsx)
+  if (typeof process !== 'undefined' && process.env) {
+    if (process.env.VITE_API_KEY) return process.env.VITE_API_KEY;
+    if (process.env.API_KEY) return process.env.API_KEY;
+    if (process.env.REACT_APP_API_KEY) return process.env.REACT_APP_API_KEY;
+  }
+  
+  return '';
+};
 
-if (!API_KEY) {
-  console.error("API_KEY is missing from environment variables.");
-}
+// Lazy initialization singleton to prevent crash on module load
+let aiInstance: GoogleGenAI | null = null;
 
-const ai = new GoogleGenAI({ apiKey: API_KEY });
+const getAI = (): GoogleGenAI => {
+  if (!aiInstance) {
+    const apiKey = getApiKey();
+    if (!apiKey) {
+      throw new Error("API_KEY is missing. Please set VITE_API_KEY in your Netlify environment variables.");
+    }
+    aiInstance = new GoogleGenAI({ apiKey });
+  }
+  return aiInstance;
+};
 
 // --- Audio Analysis (Complex) ---
 export const analyzeAudioContent = async (
@@ -17,7 +40,8 @@ export const analyzeAudioContent = async (
   try {
     const modelId = "gemini-2.5-flash"; 
 
-    const response = await ai.models.generateContent({
+    // Use getAI() instead of global 'ai' variable
+    const response = await getAI().models.generateContent({
       model: modelId,
       contents: {
         parts: [
@@ -83,7 +107,8 @@ export const analyzeAudioContent = async (
 // --- Text to Speech (TTS) ---
 export const generateSpeech = async (text: string): Promise<string> => {
   try {
-    const response = await ai.models.generateContent({
+    // Use getAI() instead of global 'ai' variable
+    const response = await getAI().models.generateContent({
       model: "gemini-2.5-flash-preview-tts",
       contents: [{ parts: [{ text }] }],
       config: {
@@ -113,7 +138,8 @@ export const transcribeAudio = async (
   mimeType: string
 ): Promise<string> => {
   try {
-    const response = await ai.models.generateContent({
+    // Use getAI() instead of global 'ai' variable
+    const response = await getAI().models.generateContent({
       model: "gemini-2.5-flash",
       contents: {
         parts: [
