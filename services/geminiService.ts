@@ -4,10 +4,33 @@ import { GeminiResponse } from "../types";
 // Lazy initialization singleton to prevent crash on module load
 let aiInstance: GoogleGenAI | null = null;
 
+const getApiKey = (): string => {
+  // 1. Check Vite/Vercel standard (import.meta.env)
+  // @ts-ignore
+  if (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_KEY) {
+    // @ts-ignore
+    return import.meta.env.VITE_API_KEY;
+  }
+  
+  // 2. Check standard Node/Process (process.env)
+  if (typeof process !== 'undefined' && process.env) {
+    if (process.env.VITE_API_KEY) return process.env.VITE_API_KEY;
+    if (process.env.API_KEY) return process.env.API_KEY;
+  }
+
+  return '';
+};
+
 const getAI = (): GoogleGenAI => {
   if (!aiInstance) {
-    // API key must be obtained exclusively from process.env.API_KEY
-    aiInstance = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const apiKey = getApiKey();
+    
+    if (!apiKey) {
+      console.error("API Key missing. Checked import.meta.env.VITE_API_KEY and process.env.API_KEY");
+      throw new Error("Missing API Key. Please ensure VITE_API_KEY is set in your environment variables.");
+    }
+    
+    aiInstance = new GoogleGenAI({ apiKey });
   }
   return aiInstance;
 };

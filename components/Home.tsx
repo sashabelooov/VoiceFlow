@@ -61,41 +61,42 @@ export const Home: React.FC<HomeProps> = ({ language, isSidebarOpen, setIsSideba
         <div className="flex-1 w-full flex items-center justify-center mt-12 lg:mt-0 relative animate-fade-in">
           <div className="relative w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] flex items-center justify-center">
              
-             {/* Orbiting Rings */}
-             <div className="absolute inset-0 border-2 border-dashed border-indigo-200 dark:border-indigo-800 rounded-full animate-[spin_12s_linear_infinite]"></div>
-             <div className="absolute inset-8 border-2 border-dashed border-violet-200 dark:border-violet-800 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
+             {/* Orbiting Rings - Made Brighter */}
+             <div className="absolute inset-0 border-2 border-dashed border-indigo-300 dark:border-indigo-500/60 rounded-full animate-[spin_12s_linear_infinite]"></div>
+             <div className="absolute inset-8 border-2 border-dashed border-violet-300 dark:border-violet-500/60 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
              
-             {/* Glowing Pulse Layers */}
-             <div className="absolute inset-[20%] bg-indigo-500/10 rounded-full animate-ping [animation-duration:3s]"></div>
-             <div className="absolute inset-[30%] bg-violet-500/20 rounded-full animate-ping [animation-duration:3s] [animation-delay:1s]"></div>
+             {/* Glowing Layers - Replaced fade-out PING with consistent PULSE to keep it light */}
+             <div className="absolute inset-[20%] bg-indigo-400/20 dark:bg-indigo-400/20 rounded-full blur-xl"></div>
+             <div className="absolute inset-[25%] bg-violet-400/20 dark:bg-violet-400/20 rounded-full animate-pulse"></div>
 
              {/* Main Center Core */}
-             <div className="relative w-48 h-48 bg-gradient-to-br from-indigo-600 via-violet-600 to-indigo-600 rounded-full shadow-[0_0_80px_rgba(79,70,229,0.5)] flex items-center justify-center z-20 animate-[pulse_4s_ease-in-out_infinite]">
+             <div className="relative w-48 h-48 bg-gradient-to-br from-indigo-500 via-violet-500 to-indigo-500 rounded-full shadow-[0_0_60px_rgba(99,102,241,0.6)] flex items-center justify-center z-20 animate-[pulse_4s_ease-in-out_infinite]">
                 
                 {/* VoiceFlow Logo SVG (Recreated Large for Hero) */}
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none" className="w-28 h-28 text-white drop-shadow-xl">
                     {/* Simple Circle Background */}
-                    <circle cx="20" cy="20" r="18" fill="white" fillOpacity="0.1" stroke="white" strokeWidth="1.5" />
+                    <circle cx="20" cy="20" r="18" fill="white" fillOpacity="0.15" stroke="white" strokeWidth="1.5" />
 
                     {/* Microphone Central Element */}
                     <rect x="16" y="11" width="8" height="12" rx="4" fill="white" />
                     <path d="M26 21v1a6 6 0 0 1-12 0v-1" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
                     <path d="M20 28v4M16 32h8" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
 
-                    {/* AI Sparkle (Top Right) */}
-                    <path d="M33 9l1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3z" fill="white" />
+                    {/* Chat Bubble (Right) */}
+                    <path d="M28 14c2.2 0 4 1.8 4 4s-1.8 4-4 4-2.5 0-3.5-1l-2 1v-2c-1.5-1-2.5-2.5-2.5-4 0-2.2 1.8-4 4-4z" 
+                          stroke="white" strokeWidth="1.5" fill="white" fillOpacity="0.2" />
 
                     {/* Digital Waves (Left) */}
-                    <path d="M10 16v4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.8" />
-                    <path d="M7 14v8" stroke="white" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.6" />
+                    <path d="M10 16v4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.9" />
+                    <path d="M7 14v8" stroke="white" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.7" />
+                    <path d="M4 17v2" stroke="white" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.5" />
                     
-                    {/* Connection Node (Bottom Right) */}
-                    <circle cx="32" cy="26" r="2" fill="white" />
-                    <path d="M32 26l-4-2" stroke="white" strokeWidth="1" strokeOpacity="0.8" />
+                    {/* AI Sparkle (Top Right) */}
+                    <path d="M34 10l1 2 2 1-2 1-1 2-1-2-2-1 2-1 1-2z" fill="white" />
                 </svg>
 
                 {/* Satellite Particle */}
-                <div className="absolute -right-4 top-1/2 w-4 h-4 bg-white rounded-full shadow-[0_0_15px_rgba(255,255,255,0.8)] animate-bounce"></div>
+                <div className="absolute -right-4 top-1/2 w-4 h-4 bg-white rounded-full shadow-[0_0_15px_rgba(255,255,255,1)] animate-bounce"></div>
              </div>
           </div>
         </div>
