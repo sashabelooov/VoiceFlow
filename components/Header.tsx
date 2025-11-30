@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MoonIcon, SunIcon, Bars3Icon, XMarkIcon, LanguageIcon } from './Icons';
+import { MoonIcon, SunIcon, Bars3Icon, XMarkIcon, LanguageIcon, VoiceFlowLogo } from './Icons';
 import { Page, Language } from '../types';
 import { translations } from '../services/translations';
 
@@ -49,14 +49,10 @@ export const Header: React.FC<HeaderProps> = ({
           )}
 
           <div 
-            className="flex items-center gap-3 cursor-pointer"
+            className="flex items-center gap-2 cursor-pointer group"
             onClick={() => setPage('home')}
           >
-            <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-200 dark:shadow-indigo-900/30">
-               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="white" className="w-6 h-6">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
-              </svg>
-            </div>
+            <VoiceFlowLogo className="w-10 h-10 shadow-lg shadow-indigo-500/20 rounded-xl group-hover:scale-105 transition-transform" />
             <h1 className="text-xl font-bold text-slate-800 dark:text-white tracking-tight hidden sm:block">
               Voice<span className="text-indigo-600 dark:text-indigo-400">Flow</span>
             </h1>

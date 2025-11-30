@@ -1,5 +1,41 @@
 import React from 'react';
 
+export const VoiceFlowLogo: React.FC<{ className?: string }> = ({ className }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none" className={className}>
+    <defs>
+      <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+        <stop stopColor="#4F46E5" />
+        <stop offset="1" stopColor="#7C3AED" />
+      </linearGradient>
+    </defs>
+    
+    {/* Conversation Bubble Background */}
+    <path 
+      d="M20 4C11.163 4 4 10.268 4 18c0 4.07 1.986 7.74 5.225 10.3.267 2.58-1.07 4.9-1.155 5.05a.998.998 0 0 0 .19 1.15c.343.344.89.376 1.29.11 3.05-2.03 5.3-3.09 6.85-3.56A17.91 17.91 0 0 0 20 32c8.837 0 16-6.268 16-14S28.837 4 20 4z" 
+      fill="url(#logo-gradient)" 
+      fillOpacity="0.1" 
+      stroke="url(#logo-gradient)" 
+      strokeWidth="1.5"
+    />
+
+    {/* Microphone Central Element */}
+    <rect x="16" y="11" width="8" height="12" rx="4" fill="url(#logo-gradient)" />
+    <path d="M26 21v1a6 6 0 0 1-12 0v-1" stroke="url(#logo-gradient)" strokeWidth="2.5" strokeLinecap="round" />
+    <path d="M20 28v4M16 32h8" stroke="url(#logo-gradient)" strokeWidth="2.5" strokeLinecap="round" />
+
+    {/* AI Sparkle (Top Right) */}
+    <path d="M33 9l1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3z" fill="url(#logo-gradient)" />
+
+    {/* Digital Waves (Left) */}
+    <path d="M10 16v4" stroke="url(#logo-gradient)" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.6" />
+    <path d="M7 14v8" stroke="url(#logo-gradient)" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.4" />
+    
+    {/* Connection Node (Bottom Right) */}
+    <circle cx="32" cy="26" r="2" fill="url(#logo-gradient)" />
+    <path d="M32 26l-4-2" stroke="url(#logo-gradient)" strokeWidth="1" strokeOpacity="0.5" />
+  </svg>
+);
+
 export const UploadIcon: React.FC<{ className?: string }> = ({ className }) => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M12 16.5V9.75m0 0l3 3.75m-3-3.75l-3 3.75M12 9.75V4.5m0 0L9 8.25m3-3.75L15 8.25M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5" />

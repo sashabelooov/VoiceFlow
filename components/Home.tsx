@@ -32,7 +32,6 @@ export const Home: React.FC<HomeProps> = ({ setPage, language }) => {
 
         {/* Left: Text Content */}
         <div className="flex-1 text-center lg:text-left z-10 animate-fade-in-up max-w-2xl">
-          {/* Badge Removed */}
           
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-6 leading-tight">
             {t.hero.titleStart}<span className="text-indigo-600 dark:text-indigo-400">{t.hero.titleEnd}</span> <br/>{t.hero.subtitle}
@@ -53,40 +52,64 @@ export const Home: React.FC<HomeProps> = ({ setPage, language }) => {
           </div>
         </div>
 
-        {/* Right: Creative Visual (Microphone + Waves) */}
+        {/* Right: Creative Visual (Orbital AI Wave with Logo) */}
         <div className="flex-1 w-full flex items-center justify-center mt-12 lg:mt-0 relative animate-fade-in">
           <div className="relative w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] flex items-center justify-center">
              
-             {/* Sound Wave Animations */}
-             <div className="absolute inset-0 bg-indigo-500/10 rounded-full animate-ping [animation-duration:3s]"></div>
-             <div className="absolute inset-4 bg-indigo-500/20 rounded-full animate-ping [animation-duration:3s] [animation-delay:1s]"></div>
-             <div className="absolute inset-8 bg-indigo-500/30 rounded-full animate-ping [animation-duration:3s] [animation-delay:2s]"></div>
+             {/* Orbiting Rings */}
+             <div className="absolute inset-0 border-2 border-dashed border-indigo-200 dark:border-indigo-800 rounded-full animate-[spin_12s_linear_infinite]"></div>
+             <div className="absolute inset-8 border-2 border-dashed border-violet-200 dark:border-violet-800 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
+             
+             {/* Glowing Pulse Layers */}
+             <div className="absolute inset-[20%] bg-indigo-500/10 rounded-full animate-ping [animation-duration:3s]"></div>
+             <div className="absolute inset-[30%] bg-violet-500/20 rounded-full animate-ping [animation-duration:3s] [animation-delay:1s]"></div>
 
-             {/* Static Outer Rings */}
-             <div className="absolute w-[90%] h-[90%] border border-indigo-200 dark:border-indigo-800 rounded-full"></div>
-             <div className="absolute w-[70%] h-[70%] border border-indigo-300 dark:border-indigo-700 rounded-full"></div>
-
-             {/* Main Center Circle (Microphone) */}
-             <div className="relative w-40 h-40 bg-gradient-to-br from-indigo-600 to-violet-600 rounded-full shadow-[0_0_80px_rgba(79,70,229,0.6)] flex items-center justify-center z-20">
-                {/* Custom Microphone Icon */}
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-20 h-20">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
-                </svg>
+             {/* Main Center Core */}
+             <div className="relative w-48 h-48 bg-gradient-to-br from-indigo-600 via-violet-600 to-indigo-600 rounded-full shadow-[0_0_80px_rgba(79,70,229,0.5)] flex items-center justify-center z-20 animate-[pulse_4s_ease-in-out_infinite]">
                 
-                {/* AI Sparkle Badge */}
-                <div className="absolute -top-2 -right-2 bg-white dark:bg-slate-900 p-2 rounded-full shadow-lg border border-indigo-100 dark:border-indigo-900 animate-bounce">
-                  <StarIcon className="w-6 h-6 text-amber-500 fill-amber-500" />
-                </div>
+                {/* VoiceFlow Logo SVG (Recreated Large for Hero) */}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none" className="w-28 h-28 text-white drop-shadow-xl">
+                    {/* Conversation Bubble Background */}
+                    <path 
+                      d="M20 4C11.163 4 4 10.268 4 18c0 4.07 1.986 7.74 5.225 10.3.267 2.58-1.07 4.9-1.155 5.05a.998.998 0 0 0 .19 1.15c.343.344.89.376 1.29.11 3.05-2.03 5.3-3.09 6.85-3.56A17.91 17.91 0 0 0 20 32c8.837 0 16-6.268 16-14S28.837 4 20 4z" 
+                      fill="white" 
+                      fillOpacity="0.2" 
+                      stroke="white" 
+                      strokeWidth="1.5"
+                    />
+
+                    {/* Microphone Central Element */}
+                    <rect x="16" y="11" width="8" height="12" rx="4" fill="white" />
+                    <path d="M26 21v1a6 6 0 0 1-12 0v-1" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+                    <path d="M20 28v4M16 32h8" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+
+                    {/* AI Sparkle (Top Right) */}
+                    <path d="M33 9l1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3z" fill="white" />
+
+                    {/* Digital Waves (Left) */}
+                    <path d="M10 16v4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.8" />
+                    <path d="M7 14v8" stroke="white" strokeWidth="2" strokeLinecap="round" strokeOpacity="0.6" />
+                    
+                    {/* Connection Node (Bottom Right) */}
+                    <circle cx="32" cy="26" r="2" fill="white" />
+                    <path d="M32 26l-4-2" stroke="white" strokeWidth="1" strokeOpacity="0.8" />
+                </svg>
+
+                {/* Satellite Particle */}
+                <div className="absolute -right-4 top-1/2 w-4 h-4 bg-white rounded-full shadow-[0_0_15px_rgba(255,255,255,0.8)] animate-bounce"></div>
              </div>
 
-             {/* Floating Elements */}
-             <div className="absolute top-0 right-10 bg-white dark:bg-slate-800 p-3 rounded-2xl shadow-xl animate-bounce-slow z-30 max-w-[140px]">
-               <div className="flex gap-1 h-4 items-end">
-                  <div className="w-1.5 bg-indigo-500 h-full rounded-full animate-[pulse_1s_ease-in-out_infinite]"></div>
-                  <div className="w-1.5 bg-indigo-500 h-[60%] rounded-full animate-[pulse_1.5s_ease-in-out_infinite]"></div>
-                  <div className="w-1.5 bg-indigo-500 h-[80%] rounded-full animate-[pulse_1.2s_ease-in-out_infinite]"></div>
-                  <div className="w-1.5 bg-indigo-500 h-[40%] rounded-full animate-[pulse_0.8s_ease-in-out_infinite]"></div>
-               </div>
+             {/* Floating Data Elements */}
+             <div className="absolute top-10 left-10 p-2 bg-white dark:bg-slate-800 rounded-xl shadow-lg animate-bounce-slow">
+                <div className="w-8 h-1 bg-indigo-400 rounded-full mb-1"></div>
+                <div className="w-5 h-1 bg-slate-200 dark:bg-slate-600 rounded-full"></div>
+             </div>
+             <div className="absolute bottom-20 right-0 p-2 bg-white dark:bg-slate-800 rounded-xl shadow-lg animate-bounce-slow [animation-delay:0.5s]">
+                <div className="flex gap-1">
+                   <div className="w-1 h-4 bg-emerald-400 rounded-full"></div>
+                   <div className="w-1 h-6 bg-emerald-500 rounded-full"></div>
+                   <div className="w-1 h-3 bg-emerald-400 rounded-full"></div>
+                </div>
              </div>
           </div>
         </div>
