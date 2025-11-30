@@ -38,7 +38,7 @@ export const AudioAnalyze: React.FC<AudioAnalyzeProps> = ({ isSidebarOpen, setIs
       const duration = await getAudioDuration(file);
       const audioUrl = URL.createObjectURL(file);
 
-      setProcessingState({ status: 'processing', message: 'Analyzing conversation with Gemini AI...' });
+      setProcessingState({ status: 'processing', message: 'Analyzing conversation with AI...' });
 
       const base64Data = await fileToBase64(file);
       const geminiResult = await analyzeAudioContent(base64Data, file.type);
