@@ -19,8 +19,18 @@ export const AudioAnalyze: React.FC<AudioAnalyzeProps> = ({ isSidebarOpen, setIs
   const [result, setResult] = useState<AudioAnalysisResult | null>(null);
   const [currentFile, setCurrentFile] = useState<File | null>(null);
   const [history, setHistory] = useState<HistoryItem[]>([]);
+  
+  // Warning state
+  const [showWarning, setShowWarning] = useState(false);
+  const [hasSeenWarning, setHasSeenWarning] = useState(false);
 
   const handleFileSelect = useCallback(async (file: File) => {
+    // Show warning on first upload attempt
+    if (!hasSeenWarning) {
+      setShowWarning(true);
+      setHasSeenWarning(true);
+    }
+
     setCurrentFile(file);
     setProcessingState({ status: 'processing', message: 'Reading audio metadata...' });
 
@@ -59,7 +69,7 @@ export const AudioAnalyze: React.FC<AudioAnalyzeProps> = ({ isSidebarOpen, setIs
         message: error.message || "An unexpected error occurred while processing the audio." 
       });
     }
-  }, []);
+  }, [hasSeenWarning]);
 
   const handleReset = () => {
     setResult(null);
@@ -92,7 +102,11 @@ export const AudioAnalyze: React.FC<AudioAnalyzeProps> = ({ isSidebarOpen, setIs
 
   return (
     <>
-      <DataLossWarning language={language} />
+      <DataLossWarning 
+        language={language} 
+        isOpen={showWarning} 
+        onClose={() => setShowWarning(false)} 
+      />
       
       <Sidebar 
         isOpen={isSidebarOpen} 

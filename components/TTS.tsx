@@ -15,8 +15,19 @@ export const TTS: React.FC<TTSProps> = ({ language }) => {
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  // Warning state
+  const [showWarning, setShowWarning] = useState(false);
+  const [hasSeenWarning, setHasSeenWarning] = useState(false);
+
   const handleGenerate = async () => {
     if (!text.trim()) return;
+    
+    // Show warning on first generation
+    if (!hasSeenWarning) {
+      setShowWarning(true);
+      setHasSeenWarning(true);
+    }
+
     setIsGenerating(true);
     setError(null);
     setAudioUrl(null);
@@ -36,7 +47,11 @@ export const TTS: React.FC<TTSProps> = ({ language }) => {
 
   return (
     <div className="w-full max-w-3xl mx-auto animate-fade-in-up p-4">
-      <DataLossWarning language={language} />
+      <DataLossWarning 
+        language={language} 
+        isOpen={showWarning} 
+        onClose={() => setShowWarning(false)} 
+      />
 
       <div className="text-center mb-10">
         <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-3">Text to Speech</h2>

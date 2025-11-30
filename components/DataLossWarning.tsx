@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Language } from '../types';
 import { translations } from '../services/translations';
 
 interface DataLossWarningProps {
   language: Language;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
-export const DataLossWarning: React.FC<DataLossWarningProps> = ({ language }) => {
-  const [isVisible, setIsVisible] = useState(true);
+export const DataLossWarning: React.FC<DataLossWarningProps> = ({ language, isOpen, onClose }) => {
   const t = translations[language].warning;
 
-  if (!isVisible) return null;
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
@@ -30,7 +31,7 @@ export const DataLossWarning: React.FC<DataLossWarningProps> = ({ language }) =>
         </div>
         <div className="p-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex justify-center">
           <button
-            onClick={() => setIsVisible(false)}
+            onClick={onClose}
             className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold transition-all hover:shadow-lg hover:shadow-indigo-500/30 active:scale-95 text-sm"
           >
             {t.btn}
