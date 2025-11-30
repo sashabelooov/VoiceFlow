@@ -18,8 +18,6 @@ export const Header: React.FC<HeaderProps> = ({
   darkMode, 
   toggleDarkMode, 
   onMenuClick,
-  currentPage,
-  setPage,
   showMenuButton = false,
   language,
   setLanguage
@@ -27,7 +25,16 @@ export const Header: React.FC<HeaderProps> = ({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const t = translations[language].nav;
 
-  const navItems: { id: Page; label: string }[] = [
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    } else if (id === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const navItems: { id: string; label: string }[] = [
     { id: 'home', label: t.home },
     { id: 'analyze', label: t.analyze },
     { id: 'stt', label: t.stt },
@@ -50,9 +57,9 @@ export const Header: React.FC<HeaderProps> = ({
 
           <div 
             className="flex items-center gap-2 cursor-pointer group"
-            onClick={() => setPage('home')}
+            onClick={() => scrollToSection('home')}
           >
-            <VoiceFlowLogo className="w-10 h-10 shadow-lg shadow-indigo-500/20 rounded-xl group-hover:scale-105 transition-transform" />
+            <VoiceFlowLogo className="w-10 h-10 shadow-lg shadow-indigo-500/20 rounded-full group-hover:scale-105 transition-transform" />
             <h1 className="text-xl font-bold text-slate-800 dark:text-white tracking-tight hidden sm:block">
               Voice<span className="text-indigo-600 dark:text-indigo-400">Flow</span>
             </h1>
@@ -64,13 +71,8 @@ export const Header: React.FC<HeaderProps> = ({
           {navItems.map((item) => (
             <button
               key={item.id}
-              onClick={() => setPage(item.id)}
-              className={`
-                px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200
-                ${currentPage === item.id 
-                  ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-sm' 
-                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'}
-              `}
+              onClick={() => scrollToSection(item.id)}
+              className="px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white dark:hover:bg-slate-700"
             >
               {item.label}
             </button>
@@ -132,15 +134,10 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               key={item.id}
               onClick={() => {
-                setPage(item.id);
+                scrollToSection(item.id);
                 setIsMobileMenuOpen(false);
               }}
-              className={`
-                w-full text-left px-4 py-3 rounded-xl font-medium transition-all duration-200
-                ${currentPage === item.id 
-                  ? 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400' 
-                  : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800'}
-              `}
+              className="w-full text-left px-4 py-3 rounded-xl font-medium transition-all duration-200 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800"
             >
               {item.label}
             </button>

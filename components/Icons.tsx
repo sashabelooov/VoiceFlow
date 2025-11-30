@@ -9,14 +9,8 @@ export const VoiceFlowLogo: React.FC<{ className?: string }> = ({ className }) =
       </linearGradient>
     </defs>
     
-    {/* Conversation Bubble Background */}
-    <path 
-      d="M20 4C11.163 4 4 10.268 4 18c0 4.07 1.986 7.74 5.225 10.3.267 2.58-1.07 4.9-1.155 5.05a.998.998 0 0 0 .19 1.15c.343.344.89.376 1.29.11 3.05-2.03 5.3-3.09 6.85-3.56A17.91 17.91 0 0 0 20 32c8.837 0 16-6.268 16-14S28.837 4 20 4z" 
-      fill="url(#logo-gradient)" 
-      fillOpacity="0.1" 
-      stroke="url(#logo-gradient)" 
-      strokeWidth="1.5"
-    />
+    {/* Simple Circle Background */}
+    <circle cx="20" cy="20" r="18" fill="url(#logo-gradient)" fillOpacity="0.1" stroke="url(#logo-gradient)" strokeWidth="1.5" />
 
     {/* Microphone Central Element */}
     <rect x="16" y="11" width="8" height="12" rx="4" fill="url(#logo-gradient)" />

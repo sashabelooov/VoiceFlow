@@ -1,25 +1,30 @@
 import React from 'react';
 import { Page, Language } from '../types';
-import { FileAudioIcon, SpeakerWaveIcon, DocumentTextIcon, UploadIcon, CheckIcon, StarIcon, ClockIcon, CpuChipIcon } from './Icons';
+import { FileAudioIcon, UploadIcon, CheckIcon, StarIcon, ClockIcon, CpuChipIcon } from './Icons';
 import { translations } from '../services/translations';
+import { AudioAnalyze } from './AudioAnalyze';
+import { STT } from './STT';
+import { TTS } from './TTS';
 
 interface HomeProps {
-  setPage: (page: Page) => void;
   language: Language;
+  isSidebarOpen: boolean;
+  setIsSidebarOpen: (isOpen: boolean) => void;
+  setPage: (page: Page) => void;
 }
 
-export const Home: React.FC<HomeProps> = ({ setPage, language }) => {
+export const Home: React.FC<HomeProps> = ({ language, isSidebarOpen, setIsSidebarOpen, setPage }) => {
   const t = translations[language];
 
-  const scrollToExplore = () => {
-    const element = document.getElementById('explore');
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   return (
-    <div className="flex flex-col items-center w-full overflow-hidden">
+    <div id="home" className="flex flex-col items-center w-full overflow-hidden">
       
       {/* 1. HERO SECTION (Split Layout) */}
       <section className="w-full min-h-[85vh] flex flex-col lg:flex-row items-center justify-between px-6 sm:px-12 lg:px-24 py-12 lg:py-0 relative">
@@ -43,7 +48,7 @@ export const Home: React.FC<HomeProps> = ({ setPage, language }) => {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
             <button 
-              onClick={scrollToExplore}
+              onClick={() => scrollToSection('analyze')}
               className="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full font-bold text-lg shadow-xl shadow-indigo-500/30 transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
             >
               <FileAudioIcon className="w-5 h-5" />
@@ -69,14 +74,8 @@ export const Home: React.FC<HomeProps> = ({ setPage, language }) => {
                 
                 {/* VoiceFlow Logo SVG (Recreated Large for Hero) */}
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none" className="w-28 h-28 text-white drop-shadow-xl">
-                    {/* Conversation Bubble Background */}
-                    <path 
-                      d="M20 4C11.163 4 4 10.268 4 18c0 4.07 1.986 7.74 5.225 10.3.267 2.58-1.07 4.9-1.155 5.05a.998.998 0 0 0 .19 1.15c.343.344.89.376 1.29.11 3.05-2.03 5.3-3.09 6.85-3.56A17.91 17.91 0 0 0 20 32c8.837 0 16-6.268 16-14S28.837 4 20 4z" 
-                      fill="white" 
-                      fillOpacity="0.2" 
-                      stroke="white" 
-                      strokeWidth="1.5"
-                    />
+                    {/* Simple Circle Background */}
+                    <circle cx="20" cy="20" r="18" fill="white" fillOpacity="0.1" stroke="white" strokeWidth="1.5" />
 
                     {/* Microphone Central Element */}
                     <rect x="16" y="11" width="8" height="12" rx="4" fill="white" />
@@ -97,19 +96,6 @@ export const Home: React.FC<HomeProps> = ({ setPage, language }) => {
 
                 {/* Satellite Particle */}
                 <div className="absolute -right-4 top-1/2 w-4 h-4 bg-white rounded-full shadow-[0_0_15px_rgba(255,255,255,0.8)] animate-bounce"></div>
-             </div>
-
-             {/* Floating Data Elements */}
-             <div className="absolute top-10 left-10 p-2 bg-white dark:bg-slate-800 rounded-xl shadow-lg animate-bounce-slow">
-                <div className="w-8 h-1 bg-indigo-400 rounded-full mb-1"></div>
-                <div className="w-5 h-1 bg-slate-200 dark:bg-slate-600 rounded-full"></div>
-             </div>
-             <div className="absolute bottom-20 right-0 p-2 bg-white dark:bg-slate-800 rounded-xl shadow-lg animate-bounce-slow [animation-delay:0.5s]">
-                <div className="flex gap-1">
-                   <div className="w-1 h-4 bg-emerald-400 rounded-full"></div>
-                   <div className="w-1 h-6 bg-emerald-500 rounded-full"></div>
-                   <div className="w-1 h-3 bg-emerald-400 rounded-full"></div>
-                </div>
              </div>
           </div>
         </div>
@@ -225,75 +211,25 @@ export const Home: React.FC<HomeProps> = ({ setPage, language }) => {
         </div>
       </section>
 
-      {/* 4. EXPLORE SECTION */}
-      <section id="explore" className="w-full bg-slate-100 dark:bg-slate-950 py-20 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">{t.explore.title}</h2>
-            <div className="w-20 h-1 bg-indigo-600 mx-auto rounded-full"></div>
-          </div>
+      {/* 4. ANALYZE SECTION */}
+      <section id="analyze" className="w-full py-20 bg-slate-50 dark:bg-slate-900/50">
+        <div className="max-w-7xl mx-auto w-full">
+           <AudioAnalyze language={language} isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
+        </div>
+      </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-             {/* Analyze Card */}
-          <div 
-            onClick={() => setPage('analyze')}
-            className="group relative bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-xl hover:border-indigo-500/50 dark:hover:border-indigo-500/50 transition-all duration-300 cursor-pointer overflow-hidden"
-          >
-            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-              <FileAudioIcon className="w-32 h-32 text-indigo-600" />
-            </div>
-            <div className="w-14 h-14 bg-indigo-100 dark:bg-indigo-900/30 rounded-2xl flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-6 group-hover:scale-110 transition-transform">
-               <FileAudioIcon className="w-7 h-7" />
-            </div>
-            <h3 className="text-2xl font-bold text-slate-800 dark:text-white mb-3">{t.explore.analyzeTitle}</h3>
-            <p className="text-slate-500 dark:text-slate-400 mb-6 min-h-[48px]">
-              {t.explore.analyzeDesc}
-            </p>
-            <span className="text-indigo-600 dark:text-indigo-400 font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
-              {t.explore.analyzeBtn} &rarr;
-            </span>
-          </div>
+      {/* 5. STT SECTION */}
+      <section id="stt" className="w-full py-20">
+         <div className="max-w-7xl mx-auto w-full">
+           <STT language={language} />
+         </div>
+      </section>
 
-          {/* STT Card */}
-          <div 
-            onClick={() => setPage('stt')}
-            className="group relative bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-xl hover:border-emerald-500/50 dark:hover:border-emerald-500/50 transition-all duration-300 cursor-pointer overflow-hidden"
-          >
-            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-              <DocumentTextIcon className="w-32 h-32 text-emerald-600" />
-            </div>
-            <div className="w-14 h-14 bg-emerald-100 dark:bg-emerald-900/30 rounded-2xl flex items-center justify-center text-emerald-600 dark:text-emerald-400 mb-6 group-hover:scale-110 transition-transform">
-               <DocumentTextIcon className="w-7 h-7" />
-            </div>
-            <h3 className="text-2xl font-bold text-slate-800 dark:text-white mb-3">{t.explore.sttTitle}</h3>
-            <p className="text-slate-500 dark:text-slate-400 mb-6 min-h-[48px]">
-              {t.explore.sttDesc}
-            </p>
-            <span className="text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
-              {t.explore.sttBtn} &rarr;
-            </span>
-          </div>
-
-          {/* TTS Card */}
-          <div 
-            onClick={() => setPage('tts')}
-            className="group relative bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-xl hover:border-violet-500/50 dark:hover:border-violet-500/50 transition-all duration-300 cursor-pointer overflow-hidden"
-          >
-            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-               <SpeakerWaveIcon className="w-32 h-32 text-violet-600" />
-            </div>
-            <div className="w-14 h-14 bg-violet-100 dark:bg-violet-900/30 rounded-2xl flex items-center justify-center text-violet-600 dark:text-violet-400 mb-6 group-hover:scale-110 transition-transform">
-               <SpeakerWaveIcon className="w-7 h-7" />
-            </div>
-            <h3 className="text-2xl font-bold text-slate-800 dark:text-white mb-3">{t.explore.ttsTitle}</h3>
-            <p className="text-slate-500 dark:text-slate-400 mb-6 min-h-[48px]">
-              {t.explore.ttsDesc}
-            </p>
-            <span className="text-violet-600 dark:text-violet-400 font-semibold flex items-center gap-2 group-hover:gap-3 transition-all">
-              {t.explore.ttsBtn} &rarr;
-            </span>
-          </div>
-          </div>
+      {/* 6. TTS SECTION */}
+      <section id="tts" className="w-full py-20 bg-slate-50 dark:bg-slate-900/50">
+         <div className="max-w-7xl mx-auto w-full">
+            <TTS language={language} />
+         </div>
       </section>
 
     </div>

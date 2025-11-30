@@ -1,33 +1,13 @@
 import { GoogleGenAI, Type, Modality } from "@google/genai";
 import { GeminiResponse } from "../types";
 
-// Robust API Key retrieval for Vite/Netlify
-const getApiKey = () => {
-  // Check Vite specific env var (Standard for Vite apps)
-  if (typeof import.meta !== 'undefined' && (import.meta as any).env && (import.meta as any).env.VITE_API_KEY) {
-    return (import.meta as any).env.VITE_API_KEY;
-  }
-  
-  // Check process.env (Standard for Node/Create-React-App, polyfilled in index.tsx)
-  if (typeof process !== 'undefined' && process.env) {
-    if (process.env.VITE_API_KEY) return process.env.VITE_API_KEY;
-    if (process.env.API_KEY) return process.env.API_KEY;
-    if (process.env.REACT_APP_API_KEY) return process.env.REACT_APP_API_KEY;
-  }
-  
-  return '';
-};
-
 // Lazy initialization singleton to prevent crash on module load
 let aiInstance: GoogleGenAI | null = null;
 
 const getAI = (): GoogleGenAI => {
   if (!aiInstance) {
-    const apiKey = getApiKey();
-    if (!apiKey) {
-      throw new Error("API_KEY is missing. Please set VITE_API_KEY in your Netlify environment variables.");
-    }
-    aiInstance = new GoogleGenAI({ apiKey });
+    // API key must be obtained exclusively from process.env.API_KEY
+    aiInstance = new GoogleGenAI({ apiKey: process.env.API_KEY });
   }
   return aiInstance;
 };
