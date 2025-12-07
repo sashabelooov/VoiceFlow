@@ -20,26 +20,25 @@ export const Header: React.FC<HeaderProps> = ({
   onMenuClick,
   showMenuButton = false,
   language,
-  setLanguage
+  setLanguage,
+  currentPage,
+  setPage
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const t = translations[language].nav;
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    } else if (id === 'home') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
-
-  const navItems: { id: string; label: string }[] = [
-    { id: 'home', label: t.home },
-    { id: 'analyze', label: t.analyze },
-    { id: 'stt', label: t.stt },
+  // New requested order: TTS, STT, Analyze
+  const navItems: { id: Page; label: string }[] = [
     { id: 'tts', label: t.tts },
+    { id: 'stt', label: t.stt },
+    { id: 'analyze', label: t.analyze },
   ];
+
+  const handleNavClick = (page: Page) => {
+    setPage(page);
+    setIsMobileMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <header className="w-full py-4 px-4 sm:px-8 border-b border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm sticky top-0 z-40 transition-colors duration-300">
@@ -57,7 +56,7 @@ export const Header: React.FC<HeaderProps> = ({
 
           <div 
             className="flex items-center gap-2 cursor-pointer group"
-            onClick={() => scrollToSection('home')}
+            onClick={() => handleNavClick('home')}
           >
             <VoiceFlowLogo className="w-10 h-10 shadow-lg shadow-indigo-500/20 rounded-full group-hover:scale-105 transition-transform" />
             <h1 className="text-xl font-bold text-slate-800 dark:text-white tracking-tight hidden sm:block">
@@ -68,11 +67,25 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-full">
+          <button
+            onClick={() => handleNavClick('home')}
+            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
+              currentPage === 'home'
+                ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-sm'
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+            }`}
+          >
+            {t.home}
+          </button>
           {navItems.map((item) => (
             <button
               key={item.id}
-              onClick={() => scrollToSection(item.id)}
-              className="px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-white dark:hover:bg-slate-700"
+              onClick={() => handleNavClick(item.id)}
+              className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
+                currentPage === item.id
+                  ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-sm'
+                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+              }`}
             >
               {item.label}
             </button>
@@ -130,14 +143,25 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Mobile Navigation Dropdown */}
       {isMobileMenuOpen && (
         <div className="absolute top-full left-0 right-0 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 p-4 md:hidden flex flex-col gap-2 shadow-xl animate-fade-in-down">
+          <button
+              onClick={() => handleNavClick('home')}
+              className={`w-full text-left px-4 py-3 rounded-xl font-medium transition-all duration-200 ${
+                currentPage === 'home'
+                  ? 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400'
+                  : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800'
+              }`}
+            >
+              {t.home}
+            </button>
           {navItems.map((item) => (
             <button
               key={item.id}
-              onClick={() => {
-                scrollToSection(item.id);
-                setIsMobileMenuOpen(false);
-              }}
-              className="w-full text-left px-4 py-3 rounded-xl font-medium transition-all duration-200 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800"
+              onClick={() => handleNavClick(item.id)}
+              className={`w-full text-left px-4 py-3 rounded-xl font-medium transition-all duration-200 ${
+                currentPage === item.id
+                  ? 'bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400'
+                  : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800'
+              }`}
             >
               {item.label}
             </button>

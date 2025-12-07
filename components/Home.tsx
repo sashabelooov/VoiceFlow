@@ -1,10 +1,7 @@
 import React from 'react';
 import { Page, Language } from '../types';
-import { FileAudioIcon, UploadIcon, CheckIcon, StarIcon, ClockIcon, CpuChipIcon } from './Icons';
+import { FileAudioIcon, UploadIcon, CheckIcon, StarIcon, ClockIcon, CpuChipIcon, SpeakerWaveIcon, DocumentTextIcon } from './Icons';
 import { translations } from '../services/translations';
-import { AudioAnalyze } from './AudioAnalyze';
-import { STT } from './STT';
-import { TTS } from './TTS';
 
 interface HomeProps {
   language: Language;
@@ -13,18 +10,11 @@ interface HomeProps {
   setPage: (page: Page) => void;
 }
 
-export const Home: React.FC<HomeProps> = ({ language, isSidebarOpen, setIsSidebarOpen, setPage }) => {
+export const Home: React.FC<HomeProps> = ({ language, setPage }) => {
   const t = translations[language];
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
-    <div id="home" className="flex flex-col items-center w-full overflow-hidden">
+    <div className="flex flex-col items-center w-full overflow-hidden">
       
       {/* 1. HERO SECTION (Split Layout) */}
       <section className="w-full min-h-[85vh] flex flex-col lg:flex-row items-center justify-between px-6 sm:px-12 lg:px-24 py-12 lg:py-0 relative">
@@ -48,11 +38,18 @@ export const Home: React.FC<HomeProps> = ({ language, isSidebarOpen, setIsSideba
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
             <button 
-              onClick={() => scrollToSection('analyze')}
+              onClick={() => setPage('analyze')}
               className="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full font-bold text-lg shadow-xl shadow-indigo-500/30 transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
             >
               <FileAudioIcon className="w-5 h-5" />
               {t.hero.ctaDemo}
+            </button>
+            <button 
+              onClick={() => setPage('tts')}
+              className="px-8 py-4 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-900 dark:text-white rounded-full font-bold text-lg border border-slate-200 dark:border-slate-700 shadow-lg transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
+            >
+              <SpeakerWaveIcon className="w-5 h-5" />
+              {t.nav.tts}
             </button>
           </div>
         </div>
@@ -212,25 +209,52 @@ export const Home: React.FC<HomeProps> = ({ language, isSidebarOpen, setIsSideba
         </div>
       </section>
 
-      {/* 4. ANALYZE SECTION */}
-      <section id="analyze" className="w-full py-20 bg-slate-50 dark:bg-slate-900/50">
-        <div className="max-w-7xl mx-auto w-full">
-           <AudioAnalyze language={language} isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
+      {/* 4. Capabilities (Links to other pages) */}
+      <section className="w-full py-20 bg-slate-50 dark:bg-slate-900/50 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">{t.explore.title}</h2>
+            <div className="w-20 h-1 bg-indigo-600 mx-auto rounded-full"></div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+             {/* Link to TTS */}
+             <div onClick={() => setPage('tts')} className="cursor-pointer group bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <div className="w-14 h-14 bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-violet-600 group-hover:text-white transition-colors">
+                  <SpeakerWaveIcon className="w-7 h-7" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">{t.explore.ttsTitle}</h3>
+                <p className="text-slate-600 dark:text-slate-400 mb-6">{t.explore.ttsDesc}</p>
+                <span className="text-indigo-600 dark:text-indigo-400 font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                  {t.explore.ttsBtn} &rarr;
+                </span>
+             </div>
+
+             {/* Link to STT */}
+             <div onClick={() => setPage('stt')} className="cursor-pointer group bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <div className="w-14 h-14 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                  <DocumentTextIcon className="w-7 h-7" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">{t.explore.sttTitle}</h3>
+                <p className="text-slate-600 dark:text-slate-400 mb-6">{t.explore.sttDesc}</p>
+                <span className="text-indigo-600 dark:text-indigo-400 font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                  {t.explore.sttBtn} &rarr;
+                </span>
+             </div>
+
+             {/* Link to Analyze */}
+             <div onClick={() => setPage('analyze')} className="cursor-pointer group bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                <div className="w-14 h-14 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                  <FileAudioIcon className="w-7 h-7" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">{t.explore.analyzeTitle}</h3>
+                <p className="text-slate-600 dark:text-slate-400 mb-6">{t.explore.analyzeDesc}</p>
+                <span className="text-indigo-600 dark:text-indigo-400 font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                  {t.explore.analyzeBtn} &rarr;
+                </span>
+             </div>
+          </div>
         </div>
-      </section>
-
-      {/* 5. STT SECTION */}
-      <section id="stt" className="w-full py-20">
-         <div className="max-w-7xl mx-auto w-full">
-           <STT language={language} />
-         </div>
-      </section>
-
-      {/* 6. TTS SECTION */}
-      <section id="tts" className="w-full py-20 bg-slate-50 dark:bg-slate-900/50">
-         <div className="max-w-7xl mx-auto w-full">
-            <TTS language={language} />
-         </div>
       </section>
 
     </div>
